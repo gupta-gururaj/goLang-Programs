@@ -1,39 +1,35 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
-	//Enter matrix size
-	var r, c int
-	fmt.Println("Enter no. of rows and columns of your matrix")
-	fmt.Scan(&r)
-	fmt.Scan(&c)
-	var m1 [10][10]int
-	fmt.Println("Enter your ", r, " X ", c, "matrix")
-	for i := 0; i < r; i++ {
-		for j := 0; j < c; j++ {
-			fmt.Scan(&m1[i][j])
+	//Enter orgMatrix
+	var row, column int
+	var orgMatrix [10][10]int
+
+	fmt.Println("Enter no. of rows and columns of your orgMatrix")
+	fmt.Scan(&row)
+	fmt.Scan(&column)
+	for i := 0; i < row; i++ {
+		for j := 0; j < column; j++ {
+			fmt.Scan(&orgMatrix[i][j])
 		}
 	}
 
-	//Transpose conversion
-	var temp int
-	for j := 0; j < c; j++ {
-		for i := j; i < r; i++ {
-			if i != j {
-				temp = m1[i][j]
-				m1[i][j] = m1[j][i]
-				m1[j][i] = temp
-			} else {
-				continue
-			}
+	//taking transposed of the Matrix
+	var transposedMatrix [10][10]int
+	for i := 0; i < row; i++ {
+		for j := 0; j < column; j++ {
+			transposedMatrix[j][i] = orgMatrix[i][j]
 		}
 	}
 
 	fmt.Println("Transpose Matrix")
-	for i := 0; i < r; i++ {
-		for j := 0; j < c; j++ {
-			fmt.Print(m1[i][j], " ")
+	for i := 0; i < row; i++ {
+		for j := 0; j < column; j++ {
+			fmt.Print(transposedMatrix[i][j], " ")
 		}
 		fmt.Println()
 	}
