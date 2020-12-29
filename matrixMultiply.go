@@ -4,52 +4,53 @@ import "fmt"
 
 func main() {
 	//Enter 2 matrixes
-	var m1 [3][2]int
-	fmt.Println("Enter 3 x 2 matrix")
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 2; j++ {
-			fmt.Scan(&m1[i][j])
-		}
+	var firstMatrix = [3][2]int{
+		{3, 4},
+		{4, 5},
+		{6, 7},
 	}
-	var m2 [2][3]int
-	fmt.Println("Enter 2 X 3 matrix")
-	for i := 0; i < 2; i++ {
-		for j := 0; j < 3; j++ {
-			fmt.Scan(&m2[i][j])
+	//To take values Dynamically
+	/* var row1, column1 int
+	fmt.Scan(&row1)
+	fmt.Scan(&column1)
+	fmt.Println("Enter 3 x 2 matrix")
+	for i := 0; i < row1; i++ {
+		for j := 0; j < column1; j++ {
+			fmt.Scan(&firstMatrix[i][j])
 		}
+	} */
+
+	var secondMatrix = [2][3]int{
+		{1, 2, 3},
+		{4, 5, 6},
 	}
 
-	//Displaying entered matrix
-	/* fmt.Println("Matrix 1  ")
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 2; j++ {
-			fmt.Print(m1[i][j])
+	//To take values Dynamically
+	/* var row1, column1 int
+	fmt.Scan(&row2)
+	fmt.Scan(&column2)
+	fmt.Println("Enter 2 x 3 matrix")
+	for i := 0; i < row2; i++ {
+		for j := 0; j < column2; j++ {
+			fmt.Scan(&secondMatrix[i][j])
 		}
-		fmt.Println()
-	}
-	fmt.Println("Matrix 2  ")
-	for i := 0; i < 2; i++ {
-		for j := 0; j < 3; j++ {
-			fmt.Print(m2[i][j])
-		}
-		fmt.Println()
 	} */
 
 	//Calculating 3rd matrix
-	var mux [3][3]int
+	var multipliedMatrix [3][3]int
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
-			mux[i][j] = 0
+			multipliedMatrix[i][j] = 0
 			for k := 0; k < 2; k++ {
-				mux[i][j] = mux[i][j] + (m1[i][k] * m2[k][j])
+				multipliedMatrix[i][j] = multipliedMatrix[i][j] + (firstMatrix[i][k] * secondMatrix[k][j])
 			}
 		}
 	}
 
-	fmt.Println("\nMultiplied matrix is : ")
+	fmt.Println("Multiplied matrix")
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
-			fmt.Print(mux[i][j], " ")
+			fmt.Print(multipliedMatrix[i][j], " ")
 		}
 		fmt.Println()
 	}
