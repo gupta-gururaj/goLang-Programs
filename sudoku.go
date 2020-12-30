@@ -74,7 +74,7 @@ func smallSudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 				for di := iStart; di <= iStart+2; di++ {
 					for dj := jStart; dj <= jStart+2; dj++ {
 						if element == smallSudoku[di][dj] {
-							count++
+							count++ // when count = 1, element is matched with itself
 							if count == 2 {
 								fmt.Println("Number -", element, "\nRow -", di+1, "\nColumn -", dj+1)
 								printMatrix(smallSudoku, iStart, jStart)
