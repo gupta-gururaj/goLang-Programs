@@ -2,9 +2,9 @@ package main
 
 import "fmt"
 
-func printMatrix(matrix [9][9]int, i1, j1, i2, j2 int) {
-	for i := i1; i <= i2; i++ {
-		for j := j1; j <= j2; j++ {
+func printMatrix(matrix [9][9]int, i1, j1 int) {
+	for i := i1; i <= i1+2; i++ {
+		for j := j1; j <= j1+2; j++ {
 			fmt.Print(matrix[i][j], " ")
 		}
 		fmt.Println()
@@ -77,7 +77,7 @@ func smallSudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 							count++
 							if count == 2 {
 								fmt.Println("Number -", element, "\nRow -", di+1, "\nColumn -", dj+1)
-								printMatrix(smallSudoku, iStart, jStart, iStart+2, jStart+2)
+								printMatrix(smallSudoku, iStart, jStart)
 								return false
 							}
 						}
