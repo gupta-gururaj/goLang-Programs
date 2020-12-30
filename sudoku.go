@@ -55,29 +55,21 @@ func sudokuRowColumnCheck(sudoku [9][9]int) bool {
 	return true
 }
 
-func smallSudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
-	var smallSudoku [9][9]int
+func sudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 	for i := iStart; i <= iStart+2; i++ {
 		for j := jStart; j <= jStart+2; j++ {
-			smallSudoku[i][j] = sudoku[i][j]
-		}
-	}
-
-	count := 0
-	for i := iStart; i <= iStart+2; i++ {
-		for j := jStart; j <= jStart+2; j++ {
-			element := smallSudoku[i][j]
-			count = 0
+			element := sudoku[i][j]
+			count := 0
 			if element == 0 { //0 means "null" so skipping the element
 				continue
 			} else {
 				for di := iStart; di <= iStart+2; di++ {
 					for dj := jStart; dj <= jStart+2; dj++ {
-						if element == smallSudoku[di][dj] {
+						if element == sudoku[di][dj] {
 							count++ // when count = 1, element is matched with itself
 							if count == 2 {
 								fmt.Println("Number -", element, "\nRow -", di+1, "\nColumn -", dj+1)
-								printMatrix(smallSudoku, iStart, jStart)
+								printMatrix(sudoku, iStart, jStart)
 								return false
 							}
 						}
@@ -99,28 +91,25 @@ func main() {
 		{7, 0, 0, 0, 2, 0, 0, 0, 6},
 		{0, 6, 0, 0, 0, 0, 7, 8, 0},
 		{0, 0, 0, 4, 1, 9, 0, 0, 5},
-		{0, 0, 0, 0, 8, 0, 0, 2, 9},
+		{0, 0, 0, 0, 8, 0, 0, 7, 9},
 	}
-
-	/* printMatrix(sudoku, 0, 0, 8, 8)
-	fmt.Println("") */
 
 	sudokuValue := true
 	for i := 0; i <= 6 && sudokuValue; i = i + 3 {
 		for j := 0; j <= 6 && sudokuValue; j = j + 3 {
-			sudokuValue = smallSudokuCheck(sudoku, i, j)
+			sudokuValue = sudokuCheck(sudoku, j, i)
 		}
 	}
 
-	/* v1 := smallSudokuCheck(sudoku, 0, 0)
-	v2 := smallSudokuCheck(sudoku, 3, 0)
-	v3 := smallSudokuCheck(sudoku, 6, 0)
-	v4 := smallSudokuCheck(sudoku, 0, 3)
-	v5 := smallSudokuCheck(sudoku, 3, 3)
-	v6 := smallSudokuCheck(sudoku, 6, 3)
-	v7 := smallSudokuCheck(sudoku, 0, 6)
-	v8 := smallSudokuCheck(sudoku, 3, 6)
-	v9 := smallSudokuCheck(sudoku, 6, 6) */
+	/* v1 := sudokuCheck(sudoku, 0, 0)
+	v2 := sudokuCheck(sudoku, 3, 0)
+	v3 := sudokuCheck(sudoku, 6, 0)
+	v4 := sudokuCheck(sudoku, 0, 3)
+	v5 := sudokuCheck(sudoku, 3, 3)
+	v6 := sudokuCheck(sudoku, 6, 3)
+	v7 := sudokuCheck(sudoku, 0, 6)
+	v8 := sudokuCheck(sudoku, 3, 6)
+	v9 := sudokuCheck(sudoku, 6, 6) */
 
 	if sudokuValue == true && sudokuRowColumnCheck(sudoku) == true {
 		fmt.Println("SUDOKU IS VALID ")
