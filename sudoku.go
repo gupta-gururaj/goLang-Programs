@@ -11,13 +11,11 @@ func printMatrix(matrix [9][9]int, i1, j1, i2, j2 int) {
 	}
 }
 
-func sudokuRowColumnCheck(sudoku [9][9]int) int {
-	flag := 0
-
+func sudokuRowColumnCheck(sudoku [9][9]int) bool {
 	//Traverse through each element in 9 X 9 array
 
-	for i := 0; i < 9 && flag != 1; i++ {
-		for j := 0; j < 9 && flag != 1; j++ {
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
 
 			element := sudoku[i][j]
 
@@ -25,73 +23,62 @@ func sudokuRowColumnCheck(sudoku [9][9]int) int {
 				continue
 			} else {
 				if element > 9 {
-					flag = 1
 					fmt.Println("ERROR - element more than 9\nrow - ", i+1, "\ncolumn - ", j+1)
+					return false
 				}
 				//row check
-				for r := 0; r < 9 && flag != 1; r++ {
+				for r := 0; r < 9; r++ {
 					if r == i { //element should not be compared with itself so skip the part
 						continue
 					} else {
 						if element == sudoku[r][j] {
-							flag = 1
 							fmt.Println("Element -", element, "\nrow - ", r+1, "\ncolumn - ", j+1)
-							break
+							return false
 						}
 					}
 				}
 
 				//column check
-				for c := 0; c < 9 && flag != 1; c++ {
+				for c := 0; c < 9; c++ {
 					if c == j { //element should not be compared with itself so skip the part
 						continue
 					} else {
 						if element == sudoku[i][c] {
-							flag = 1
 							fmt.Println("Element -", element, "\nrow - ", i+1, "\ncolumn - ", c+1)
-							break
+							return false
 						}
 					}
 				}
 			}
 		}
 	}
-	return flag
+	return true
 }
 
-func smallSudokuCheck(sudoku [9][9]int, iStart, jStart, iEnd, jEnd int) int {
+func smallSudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 	var smallSudoku [9][9]int
-	for i := iStart; i <= iEnd; i++ {
-		for j := jStart; j <= jEnd; j++ {
+	for i := iStart; i <= iStart+2; i++ {
+		for j := jStart; j <= jStart+2; j++ {
 			smallSudoku[i][j] = sudoku[i][j]
 		}
 	}
 
-	//To print small sudoku
-	/* for i := iStart; i <= iEnd; i++ {
-		for j := jStart; j <= jEnd; j++ {
-			fmt.Print(smallSudoku[i][j], " ")
-		}
-		fmt.Println()
-	} */
-
-	var flag, count = 0, 0
-	for i := iStart; i <= iEnd && flag != 1; i++ {
-		for j := jStart; j <= jEnd && flag != 1; j++ {
+	count := 0
+	for i := iStart; i <= iStart+2; i++ {
+		for j := jStart; j <= jStart+2; j++ {
 			element := smallSudoku[i][j]
 			count = 0
 			if element == 0 { //0 means "null" so skipping the element
 				continue
 			} else {
-				for di := iStart; di <= iEnd && flag != 1; di++ {
-					for dj := jStart; dj <= jEnd && flag != 1; dj++ {
-						if element == smallSudoku[di][dj] && flag != 1 {
+				for di := iStart; di <= iStart+2; di++ {
+					for dj := jStart; dj <= jStart+2; dj++ {
+						if element == smallSudoku[di][dj] {
 							count++
 							if count == 2 {
-								flag = 1
 								fmt.Println("Number -", element, "\nRow -", di+1, "\nColumn -", dj+1)
-								printMatrix(smallSudoku, iStart, jStart, iEnd, jEnd)
-								break
+								printMatrix(smallSudoku, iStart, jStart, iStart+2, jStart+2)
+								return false
 							}
 						}
 					}
@@ -99,7 +86,7 @@ func smallSudokuCheck(sudoku [9][9]int, iStart, jStart, iEnd, jEnd int) int {
 			}
 		}
 	}
-	return flag
+	return true
 }
 
 func main() {
@@ -112,24 +99,30 @@ func main() {
 		{7, 0, 0, 0, 2, 0, 0, 0, 6},
 		{0, 6, 0, 0, 0, 0, 7, 8, 0},
 		{0, 0, 0, 4, 1, 9, 0, 0, 5},
-		{0, 0, 0, 0, 8, 0, 0, 2, 9},
+		{0, 0, 0, 0, 8, 0, 0, 7, 9},
 	}
 
 	/* printMatrix(sudoku, 0, 0, 8, 8)
 	fmt.Println("") */
 
-	v1 := smallSudokuCheck(sudoku, 0, 0, 2, 2)
-	v2 := smallSudokuCheck(sudoku, 3, 0, 5, 2)
-	v3 := smallSudokuCheck(sudoku, 6, 0, 8, 2)
-	v4 := smallSudokuCheck(sudoku, 0, 3, 2, 5)
-	v5 := smallSudokuCheck(sudoku, 3, 3, 5, 5)
-	v6 := smallSudokuCheck(sudoku, 6, 3, 8, 5)
-	v7 := smallSudokuCheck(sudoku, 0, 6, 2, 8)
-	v8 := smallSudokuCheck(sudoku, 3, 6, 5, 8)
-	v9 := smallSudokuCheck(sudoku, 6, 6, 8, 8)
-	sudokuValue := v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9 //If anyone of them is false then value will be > 0
+	sudokuValue := true
+	for i := 0; i <= 6 && sudokuValue; i = i + 3 {
+		for j := 0; j <= 6 && sudokuValue; j = j + 3 {
+			sudokuValue = smallSudokuCheck(sudoku, i, j)
+		}
+	}
 
-	if sudokuValue == 0 && sudokuRowColumnCheck(sudoku) == 0 {
+	/* v1 := smallSudokuCheck(sudoku, 0, 0)
+	v2 := smallSudokuCheck(sudoku, 3, 0)
+	v3 := smallSudokuCheck(sudoku, 6, 0)
+	v4 := smallSudokuCheck(sudoku, 0, 3)
+	v5 := smallSudokuCheck(sudoku, 3, 3)
+	v6 := smallSudokuCheck(sudoku, 6, 3)
+	v7 := smallSudokuCheck(sudoku, 0, 6)
+	v8 := smallSudokuCheck(sudoku, 3, 6)
+	v9 := smallSudokuCheck(sudoku, 6, 6) */
+
+	if sudokuValue == true && sudokuRowColumnCheck(sudoku) == true {
 		fmt.Println("SUDOKU IS VALID ")
 	} else {
 		fmt.Println("NOT A VALID SUDOKU")
