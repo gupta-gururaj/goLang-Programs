@@ -1,4 +1,5 @@
 package main
+
 import "fmt"
 
 func printSmallMatrix(matrix [9][9]int, i1, j1 int) {
@@ -15,33 +16,29 @@ func sudokuRowColumnCheck(sudoku [9][9]int) bool {
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			currentValue := sudoku[i][j]
-			if currentValue == 0 { //0 means "null" so skipping the currentValue
-				continue
-			} else {
-				if currentValue > 9 {
-					fmt.Println("ERROR - currentValue more than 9\nrow - ", i+1, "\ncolumn - ", j+1)
-					return false
-				}
-				//row check
-				for r := 0; r < 9; r++ {
-					if r == i { //currentValue should not be compared with itself so skip the part
-						continue
-					} else {
-						if currentValue == sudoku[r][j] {
-							fmt.Println("Element -", currentValue, "\nrow - ", r+1, "\ncolumn - ", j+1)
-							return false
-						}
+			if currentValue > 9 || currentValue < 1 {
+				fmt.Println("ERROR - currentValue invalid \nrow - ", i+1, "\ncolumn - ", j+1)
+				return false
+			}
+			//row check
+			for r := 0; r < 9; r++ {
+				if r == i { //currentValue should not be compared with itself so skip the part
+					continue
+				} else {
+					if currentValue == sudoku[r][j] {
+						fmt.Println("Element -", currentValue, "\nrow - ", r+1, "\ncolumn - ", j+1)
+						return false
 					}
 				}
-				//column check
-				for c := 0; c < 9; c++ {
-					if c == j { //currentValue should not be compared with itself so skip the part
-						continue
-					} else {
-						if currentValue == sudoku[i][c] {
-							fmt.Println("Element -", currentValue, "\nrow - ", i+1, "\ncolumn - ", c+1)
-							return false
-						}
+			}
+			//column check
+			for c := 0; c < 9; c++ {
+				if c == j { //currentValue should not be compared with itself so skip the part
+					continue
+				} else {
+					if currentValue == sudoku[i][c] {
+						fmt.Println("Element -", currentValue, "\nrow - ", i+1, "\ncolumn - ", c+1)
+						return false
 					}
 				}
 			}
@@ -49,23 +46,20 @@ func sudokuRowColumnCheck(sudoku [9][9]int) bool {
 	}
 	return true
 }
+
 func sudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 	for i := iStart; i <= iStart+2; i++ {
 		for j := jStart; j <= jStart+2; j++ {
 			currentValue := sudoku[i][j]
 			count := 0
-			if currentValue == 0 { //0 means "null" so skipping the currentValue
-				continue
-			} else {
-				for idummy := iStart; idummy <= iStart+2; idummy++ {
-					for jdummy := jStart; jdummy <= jStart+2; jdummy++ {
-						if currentValue == sudoku[idummy][jdummy] {
-							count++ // when count = 1, currentValue is matched with itself
-							if count == 2 {
-								fmt.Println("Number -", currentValue, "\nRow -", idummy+1, "\nColumn -", jdummy+1)
-								printSmallMatrix(sudoku, iStart, jStart)
-								return false
-							}
+			for idummy := iStart; idummy <= iStart+2; idummy++ {
+				for jdummy := jStart; jdummy <= jStart+2; jdummy++ {
+					if currentValue == sudoku[idummy][jdummy] {
+						count++ // when count = 1, currentValue is matched with itself
+						if count == 2 {
+							fmt.Println("Number -", currentValue, "\nRow -", idummy+1, "\nColumn -", jdummy+1)
+							printSmallMatrix(sudoku, iStart, jStart)
+							return false
 						}
 					}
 				}
@@ -74,17 +68,18 @@ func sudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 	}
 	return true
 }
+
 func main() {
 	var sudoku = [9][9]int{
-		{5, 4, 0, 0, 7, 0, 0, 0, 0}, //0 means null
-		{6, 0, 0, 1, 9, 5, 0, 0, 0},
-		{0, 9, 8, 0, 0, 0, 0, 6, 0},
-		{8, 0, 0, 0, 6, 0, 0, 0, 3},
-		{4, 0, 0, 8, 0, 3, 0, 0, 1},
-		{7, 0, 0, 0, 2, 0, 0, 0, 6},
-		{0, 6, 0, 0, 0, 0, 7, 8, 0},
-		{0, 0, 0, 4, 1, 9, 0, 0, 5},
-		{0, 0, 0, 0, 8, 0, 0, 7, 9},
+		{5, 3, 4, 6, 7, 8, 9, 1, 2},
+		{6, 7, 2, 1, 9, 5, 3, 4, 8},
+		{1, 9, 8, 3, 4, 2, 5, 6, 7},
+		{8, 5, 9, 7, 6, 1, 4, 2, 3},
+		{4, 2, 6, 8, 5, 3, 7, 9, 1},
+		{7, 1, 3, 9, 2, 4, 8, 5, 6},
+		{9, 6, 1, 5, 3, 7, 2, 8, 4},
+		{2, 8, 7, 4, 1, 9, 6, 3, 5},
+		{3, 4, 5, 2, 8, 6, 1, 7, 9},
 	}
 	allSmallSudokus := true
 	for i := 0; i <= 6 && allSmallSudokus; i = i + 3 {
