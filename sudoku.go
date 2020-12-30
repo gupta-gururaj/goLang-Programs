@@ -94,10 +94,10 @@ func main() {
 		{0, 0, 0, 0, 8, 0, 0, 7, 9},
 	}
 
-	sudokuValue := true
-	for i := 0; i <= 6 && sudokuValue; i = i + 3 {
-		for j := 0; j <= 6 && sudokuValue; j = j + 3 {
-			sudokuValue = sudokuCheck(sudoku, j, i)
+	allSmallSudokus := true
+	for i := 0; i <= 6 && allSmallSudokus; i = i + 3 {
+		for j := 0; j <= 6 && allSmallSudokus; j = j + 3 {
+			allSmallSudokus = sudokuCheck(sudoku, j, i)
 		}
 	}
 
@@ -111,7 +111,7 @@ func main() {
 	v8 := sudokuCheck(sudoku, 3, 6)
 	v9 := sudokuCheck(sudoku, 6, 6) */
 
-	if sudokuValue == true && sudokuRowColumnCheck(sudoku) == true {
+	if allSmallSudokus == true && sudokuRowColumnCheck(sudoku) == true {
 		fmt.Println("SUDOKU IS VALID ")
 	} else {
 		fmt.Println("NOT A VALID SUDOKU")
