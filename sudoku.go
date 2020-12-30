@@ -1,5 +1,4 @@
 package main
-
 import "fmt"
 
 func printSmallMatrix(matrix [9][9]int, i1, j1 int) {
@@ -50,7 +49,6 @@ func sudokuRowColumnCheck(sudoku [9][9]int) bool {
 	}
 	return true
 }
-
 func sudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 	for i := iStart; i <= iStart+2; i++ {
 		for j := jStart; j <= jStart+2; j++ {
@@ -76,7 +74,6 @@ func sudokuCheck(sudoku [9][9]int, iStart, jStart int) bool {
 	}
 	return true
 }
-
 func main() {
 	var sudoku = [9][9]int{
 		{5, 4, 0, 0, 7, 0, 0, 0, 0}, //0 means null
