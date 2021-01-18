@@ -86,7 +86,7 @@ func createJSON(users []User, techDetails []Tech, contactDetails []Contact) {
 
 func main() {
 
-	usercontent, error1 := ioutil.ReadFile("userdata.json")
+	usercontent, error1 := ioutil.ReadFile("user.json")
 	if error1 != nil {
 		fmt.Println(error1.Error())
 	}
@@ -98,7 +98,7 @@ func main() {
 
 	}
 
-	techcontent, error3 := ioutil.ReadFile("techdata.json")
+	techcontent, error3 := ioutil.ReadFile("tech.json")
 	if error3 != nil {
 		fmt.Println(error3.Error())
 	}
@@ -110,7 +110,7 @@ func main() {
 
 	}
 
-	contactcontent, error5 := ioutil.ReadFile("contactdata.json")
+	contactcontent, error5 := ioutil.ReadFile("contact.json")
 	if error5 != nil {
 		fmt.Println(error5.Error())
 	}
@@ -119,8 +119,6 @@ func main() {
 	error6 := json.Unmarshal([]byte(contactcontent), &contactDetails)
 	if error6 != nil {
 		fmt.Println(error6.Error())
-
 	}
-
 	createJSON(users, techDetails, contactDetails)
 }
